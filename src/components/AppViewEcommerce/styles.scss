@@ -1,0 +1,115 @@
+body {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+
+    .contenedorBarra {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1200px;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background-color: white;
+
+        .imgLogo {
+            border-radius: 10px;
+        }
+        .userShop {
+            display: flex;
+            gap: 15px;
+            margin: 30px;
+            align-items: center;
+
+            button {
+                background: none;
+                border: none;
+                width: 35px;
+                height: 30px;
+                cursor: pointer;
+                font-size: 20px;
+            }
+            button:hover {
+                background: #e5e4e4;
+                border-radius: 20px;
+            }
+        }
+        .buscador {
+            border: #e5e4e4 solid 1px;
+            display: flex;
+            background: transparent;
+            border-radius: 20px;
+            padding: 10px;
+            width: 100%;
+            input {
+                border: none;
+                width: 100%;
+            }
+        }
+    }
+    .listaCategorias {
+        background-color: rgb(41, 98, 255, 0.082);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0px;
+        margin: 0 auto;
+        max-width: 1100px;
+        align-items: center;
+        margin-top: 20px;
+        border-radius: 20px;
+        text-align: cent er;
+
+        .contenedorProducts {
+            margin: 0 auto;
+            max-width: 1000px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .categorias {
+                margin-top: 25px;
+                border-radius: 20px;
+                padding: 20px 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+    .producto {
+        background-color: white;
+        margin-top: 10px;
+        border: #e5e4e4 solid 1px;
+        width: 100%;
+        max-width: 248px;
+        border-radius: 20px;
+        margin: 0 auto;
+        object-fit: cover;
+        cursor: pointer;
+        text-decoration: none;
+
+        p {
+            font-size: 17px;
+            padding: 0px 10px;
+            color: #353535;
+        }
+        img {
+            object-fit: cover;
+            border-radius: 20px;
+        }
+    }
+    .producto:hover {
+        box-shadow: 2px 6px 6px;
+        transition: all 0.2s;
+        color: #353535;
+    }
+    .imgBanner {
+        width: 100%;
+        border-radius: 20px;
+        margin-top: 10px;
+        object-fit: cover;
+        img {
+            border: none;
+        }
+    }
+}
