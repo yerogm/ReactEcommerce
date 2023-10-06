@@ -48,7 +48,7 @@ const PerfilProducto = () => {
                     </div>
                     {/* Agrega más detalles o características del producto aquí */}
                 </div>
-            ) : (
+            ) : ( 
                 <p>Cargando producto...</p>
             )}
             <h1>Perfil Producto</h1>
