@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { WahioImg } from "../../App";
 import { Link } from "react-router-dom";
+import ProductosPorCategorias from "../ProductosPorCategorias/ProductosPorCategorias";
 
 export interface ProductoModel {
     imgProducto: string;
@@ -22,12 +23,10 @@ export interface ProductoModel {
     imgLogo: string;
     imgBanner: string;
     id: string;
-    // categoria: {
-    //     imgCategoria: string;
-    //     categoria: string;
-    // };
+    color: string;
+    talla: number;
 }
-interface CategoriasModel {
+export interface CategoriaModel {
     categoria: string;
     imgCategoria: string;
     id: string;
@@ -44,21 +43,12 @@ const AppView = () => {
             imgLogo: "",
             imgBanner: "",
             id: "",
+            color: "",
+            talla: 0,
         },
     ]);
 
-    // const [producto, setProducto] = useState<ProductoModel>({
-    //     imgProducto: "",
-    //     categoriaId: "",
-    //     name: "",
-    //     description: "",
-    //     price: "",
-    //     imgLogo: "",
-    //     imgBanner: "",
-
-    // });
-
-    const [categorias, setCategorias] = useState<CategoriasModel[]>([]);
+    const [categorias, setCategorias] = useState<CategoriaModel[]>([]);
     const productosCollection = collection(db, "listaProductos");
     const categoriasCollection = collection(db, "categorias");
 
@@ -81,12 +71,13 @@ const AppView = () => {
     useEffect(() => {
         accederProductos();
     }, []);
+
     const accederCategorias = () => {
         getDocs(categoriasCollection)
             .then((data) => {
                 console.log("DATA RESULT : ", data);
                 const values = data.docs.map((doc) => ({
-                    ...(doc.data() as CategoriasModel),
+                    ...(doc.data() as CategoriaModel),
                     id: doc.id,
                 }));
                 console.log("Categorías cargadas:", values);
@@ -101,15 +92,7 @@ const AppView = () => {
         accederCategorias();
     }, []);
 
-    const getCategoriaForProducto = (producto: ProductoModel) => {
-        return categorias.find((cat) => cat.id === producto.categoriaId);
-    };
-
-    // Crear un array de objetos con datos combinados de productos y categorías
-    const productosConCategorias = productos.map((product) => ({
-        ...product,
-        categoria: getCategoriaForProducto(product),
-    }));
+   
 
     return (
         <div>
@@ -208,7 +191,10 @@ const AppView = () => {
                     ))}
                 </div>
             </div>
-            <div
+            {categorias.map((item) => {
+                return <ProductosPorCategorias categoria={item} />;
+            })}
+            {/* <div
                 style={{
                     display: "grid",
                     gridTemplateColumns:
@@ -221,7 +207,7 @@ const AppView = () => {
             >
                 {productosConCategorias.map((productoConCategoria) => (
                     <Link
-                        to={"/perfilProducto/:" + productoConCategoria.id}
+                        to={"/perfilProducto/" + productoConCategoria.id} // aca no se pone ":" por que si lo pongo haria de cuenta que hace parte del id
                         className="producto"
                         key={productoConCategoria.id}
                     >
@@ -235,14 +221,9 @@ const AppView = () => {
                         <p style={{ color: "black" }}>
                             $ {productoConCategoria.price}
                         </p>
-                        <p>
-                            {productoConCategoria.categoria
-                                ? `Categoría: ${productoConCategoria.categoria.categoria}`
-                                : ""}
-                        </p>
                     </Link>
                 ))}
-            </div>
+            </div> */}
             <div>
                 <div
                     style={{

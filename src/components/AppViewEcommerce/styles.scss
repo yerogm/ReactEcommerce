@@ -1,15 +1,16 @@
 body {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, Helvetica, sans-serif;
 
     .contenedorBarra {
         display: flex;
         align-items: center;
         width: 100%;
         margin: 0 auto;
-        max-width: 1200px;
-        justify-content: space-between;
+        max-width: 1500px;
+        justify-content: space-around;
         position: sticky;
         top: 0;
+        bottom: 0;
         background-color: white;
 
         .imgLogo {
