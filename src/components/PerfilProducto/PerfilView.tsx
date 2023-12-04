@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
     faArrowLeft,
     faCartShopping,
@@ -13,21 +14,26 @@ import {
     query,
     where,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CategoriaModel, ProductoModel } from "../AppViewEcommerce/AppView";
 import { db } from "../firebaseConfig/firebase";
 import "./styles.scss";
+import Mapa from "../Mapa/Mapa";
+// @ts-ignore
+import { WhatsAppWidget } from "react-whatsapp-widget";
 
 type Params = {
     id: string;
 };
 
+export interface WhatsappProps {
+    numeroTelefono: number;
+}
+
 const quantityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const PerfilProducto = () => {
+const PerfilProducto = (props: WhatsappProps) => {
     const params = useParams<Params>();
-
     const [producto, setProducto] = useState<ProductoModel>();
     const [sugerencias, setSugerencias] = useState<ProductoModel[]>([]);
     const [categoria, setCategoria] = useState<CategoriaModel>();
@@ -88,7 +94,18 @@ const PerfilProducto = () => {
             setSugerencias(values);
         } catch {}
     };
+    const { numeroTelefono } = props;
 
+    const whatsappClick = () => {
+        const numeroWhatsAppColombia = `+57${numeroTelefono}`;
+        const message = `Hola, buen día. El producto ${producto?.name} ha sido agregado al carrito de compras. ¿Puedes ayudarme con el proceso de pago?`;
+
+        const whatsappLink = `https://wa.me/${numeroWhatsAppColombia}?text=${encodeURIComponent(
+            message
+        )}`;
+
+        window.open(whatsappLink, "_blank");
+    };
     return (
         <div className="contenedorPerfil">
             <div className="contenedorBarraPerfil">
@@ -138,6 +155,7 @@ const PerfilProducto = () => {
                     }}
                 />
             </div>
+
             {producto ? (
                 <div className="contenedorPrincipal">
                     <Link
@@ -175,7 +193,9 @@ const PerfilProducto = () => {
                                             );
                                         })}
                                     </select>
-                                    <button>Agregar al carrito</button>
+                                    <button onClick={whatsappClick}>
+                                        Agregar al carrito
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +252,14 @@ const PerfilProducto = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <h2 style={{fontSize:"21px", fontWeight:"100"}}>{categoria?.categoria}</h2>
+                        <div
+                            style={{ marginTop: "20px", marginBottom: "20px" }}
+                        >
+                            <Mapa />
+                        </div>
+                        <h2 style={{ fontSize: "21px", fontWeight: "100" }}>
+                            {categoria?.categoria}
+                        </h2>
                         <div className="contenedorSugerencias">
                             {sugerencias.map((sugerencia) => (
                                 <div className="sugerencias">
@@ -248,8 +275,7 @@ const PerfilProducto = () => {
                                     </span>
                                     <span className="price">
                                         ${sugerencia.price}
-                                    </span>
-                                    {" "}
+                                    </span>{" "}
                                 </div>
                             ))}
                         </div>

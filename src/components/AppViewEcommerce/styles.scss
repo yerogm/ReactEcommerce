@@ -1,5 +1,6 @@
 body {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, Helvetica, sans-serif;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, Helvetica,
+        sans-serif;
 
     .contenedorBarra {
         display: flex;
@@ -110,7 +111,9 @@ body {
         margin-top: 10px;
         object-fit: cover;
         img {
+            width: 100%;
             border: none;
+            object-fit: cover;
         }
     }
 }

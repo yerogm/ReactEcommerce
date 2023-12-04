@@ -12,7 +12,7 @@ function App() {
                     <Route path="/" element={<AppView />} />
                     <Route
                         path="/perfilProducto/:id"
-                        element={<PerfilView />}
+                        element={<PerfilView numeroTelefono={3024290512} />}
                     />
                 </Routes>
             </BrowserRouter>

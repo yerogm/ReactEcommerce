@@ -72,6 +72,14 @@
         }
     }
 }
+// @media (max-width: 650px) {
+//     .carrito-Drop {
+//         display: flex;
+//         flex-direction: column;
+//         width: 100%;
+
+//     }
+// }
 
 .contenedorPrincipal {
     max-width: 1000px;
@@ -96,6 +104,12 @@
             cursor: pointer;
             margin-top: 15px;
 
+            &:hover {
+                box-shadow: 2px 6px 6px;
+                transition: all 0.2s;
+                color: #353535;
+            }
+            
             .price {
                 font-size: 18px;
                 padding: 1px 10px;
