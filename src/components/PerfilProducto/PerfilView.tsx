@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    addDoc,
     collection,
     doc,
     getDoc,
@@ -20,23 +21,34 @@ import { db } from "../firebaseConfig/firebase";
 import "./styles.scss";
 import Mapa from "../Mapa/Mapa";
 // @ts-ignore
-import { WhatsAppWidget } from "react-whatsapp-widget";
-
+import firebase from "./firebaseConfig";
 type Params = {
     id: string;
 };
 
-export interface WhatsappProps {
-    numeroTelefono: number;
-}
+
 
 const quantityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const PerfilProducto = (props: WhatsappProps) => {
+const PerfilProducto = () => {
     const params = useParams<Params>();
     const [producto, setProducto] = useState<ProductoModel>();
     const [sugerencias, setSugerencias] = useState<ProductoModel[]>([]);
     const [categoria, setCategoria] = useState<CategoriaModel>();
+    const [productos, setProductos] = useState<ProductoModel[]>([
+        {
+            imgProducto: "",
+            categoriaId: "",
+            name: "",
+            description: "",
+            price: "",
+            imgLogo: "",
+            imgBanner: "",
+            id: "",
+            color: "",
+            talla: 0,
+        },
+    ]);
 
     const productosCollection = collection(db, "listaProductos");
 
@@ -94,18 +106,13 @@ const PerfilProducto = (props: WhatsappProps) => {
             setSugerencias(values);
         } catch {}
     };
-    const { numeroTelefono } = props;
 
-    const whatsappClick = () => {
-        const numeroWhatsAppColombia = `+57${numeroTelefono}`;
-        const message = `Hola, buen día. El producto ${producto?.name} ha sido agregado al carrito de compras. ¿Puedes ayudarme con el proceso de pago?`;
-
-        const whatsappLink = `https://wa.me/${numeroWhatsAppColombia}?text=${encodeURIComponent(
-            message
-        )}`;
-
-        window.open(whatsappLink, "_blank");
+    const carritoComprasCollection = collection(db, "carritoCompras");
+    const AgregarAlCarrito = () => {
+        console.log("Producto agregado al carrito", producto);
+        const agregarAlCarrito = addDoc(carritoComprasCollection, producto);
     };
+
     return (
         <div className="contenedorPerfil">
             <div className="contenedorBarraPerfil">
@@ -193,7 +200,7 @@ const PerfilProducto = (props: WhatsappProps) => {
                                             );
                                         })}
                                     </select>
-                                    <button onClick={whatsappClick}>
+                                    <button onClick={AgregarAlCarrito}>
                                         Agregar al carrito
                                     </button>
                                 </div>

@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
-import { collection, doc, getDocs } from "firebase/firestore";
+import {
+    DocumentData,
+    QuerySnapshot,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    where,
+} from "firebase/firestore";
 import { db } from "../firebaseConfig/firebase";
 import {
     faMagnifyingGlass,
@@ -48,7 +57,10 @@ const AppView = () => {
         },
     ]);
 
+    const [productosSearch, setProductosSearch] = useState<ProductoModel[]>([]);
+
     const [categorias, setCategorias] = useState<CategoriaModel[]>([]);
+    const [valorBuscar, setValorBuscar] = useState("");
     const productosCollection = collection(db, "listaProductos");
     const categoriasCollection = collection(db, "categorias");
 
@@ -92,7 +104,27 @@ const AppView = () => {
         accederCategorias();
     }, []);
 
-   
+    const buscador = async (name: string) => {
+        try {
+            if (!name) return;
+            const buscar = query(
+                productosCollection,
+                where("name", "==", name)
+            );
+
+            const resultados = await getDocs(buscar);
+            const productosEncontrados = resultados.docs.map((doc) => ({
+                ...(doc.data() as ProductoModel),
+                id: doc.id,
+            }));
+
+            setProductosSearch(productosEncontrados);
+
+            console.log("Se encontraron productos:", productosEncontrados);
+        } catch (error) {
+            console.error("Error al realizar la búsqueda:", error);
+        }
+    };
 
     return (
         <div>
@@ -112,7 +144,18 @@ const AppView = () => {
                             </div>
                         ))}
                         <div className="buscador">
-                            <input type="text" placeholder="Buscar Productos" />
+                            <input
+                                type="text"
+                                placeholder="Buscar Productos"
+                                value={valorBuscar}
+                                onChange={(e) => setValorBuscar(e.target.value)}
+                                onKeyUp={(e) => {
+                                    if (e.key === "Enter") {
+                                        console.log("UN VALOR: ", e.key);
+                                        buscador(valorBuscar);
+                                    }
+                                }}
+                            />
                             <FontAwesomeIcon
                                 icon={faMagnifyingGlass}
                                 style={{
@@ -194,36 +237,7 @@ const AppView = () => {
             {categorias.map((item) => {
                 return <ProductosPorCategorias categoria={item} />;
             })}
-            {/* <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "repeat(auto-fill, minmax(250px, 1fr))",
-                    gap: "10px",
-                    margin: "0 auto",
-                    maxWidth: "1100px",
-                    marginTop: "20px",
-                }}
-            >
-                {productosConCategorias.map((productoConCategoria) => (
-                    <Link
-                        to={"/perfilProducto/" + productoConCategoria.id} // aca no se pone ":" por que si lo pongo haria de cuenta que hace parte del id
-                        className="producto"
-                        key={productoConCategoria.id}
-                    >
-                        <img
-                            src={productoConCategoria.imgProducto}
-                            alt=""
-                            width="248px"
-                            height="248px"
-                        />
-                        <p>{productoConCategoria.name}</p>
-                        <p style={{ color: "black" }}>
-                            $ {productoConCategoria.price}
-                        </p>
-                    </Link>
-                ))}
-            </div> */}
+
             <div>
                 <div
                     style={{

@@ -37,7 +37,13 @@ const ProductosPorCategorias = (props: ProductosPorCategoriasProps) => {
 
     return (
         <div>
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <div
+                style={{
+                    textAlign: "center",
+                    marginTop: "20px",
+                    
+                }}
+            >
                 <span
                     style={{
                         fontSize: "17px",
@@ -48,6 +54,7 @@ const ProductosPorCategorias = (props: ProductosPorCategoriasProps) => {
                 >
                     {props.categoria.categoria}
                 </span>
+                
             </div>
             <div className="contenedorProductoCategoria">
                 {sugerencias.map((item) => {
