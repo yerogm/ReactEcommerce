@@ -89,6 +89,7 @@ body {
         object-fit: cover;
         cursor: pointer;
         text-decoration: none;
+        box-sizing: border-box;
 
         p {
             font-size: 17px;
